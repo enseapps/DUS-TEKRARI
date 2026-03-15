@@ -1,0 +1,1071 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="theme-color" content="#667eea">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <title>🦷 DUS Diş Tekrar Sistemi</title>
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🦷</text></svg>">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        :root {
+            --primary: #667eea;
+            --secondary: #764ba2;
+            --success: #10b981;
+            --danger: #ef4444;
+            --warning: #f59e0b;
+            --info: #3b82f6;
+            --light: #f8fafc;
+            --dark: #1e293b;
+            --border: #e2e8f0;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+            background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
+            min-height: 100vh;
+            padding: 10px;
+            padding-bottom: 80px;
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .header {
+            background: white;
+            border-radius: 20px;
+            padding: 20px;
+            margin-bottom: 20px;
+            text-align: center;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+        }
+
+        .header h1 {
+            font-size: 1.8em;
+            color: var(--dark);
+            margin-bottom: 5px;
+        }
+
+        .header p {
+            color: #64748b;
+            font-size: 0.95em;
+        }
+
+        .card {
+            background: white;
+            border-radius: 16px;
+            padding: 20px;
+            margin-bottom: 15px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+        }
+
+        .card h2 {
+            font-size: 1.3em;
+            color: var(--dark);
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .form-group {
+            margin-bottom: 15px;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 6px;
+            color: var(--dark);
+            font-weight: 600;
+            font-size: 0.95em;
+        }
+
+        input, select, textarea {
+            width: 100%;
+            padding: 12px;
+            border: 2px solid var(--border);
+            border-radius: 10px;
+            font-size: 16px;
+            font-family: inherit;
+            transition: all 0.3s;
+        }
+
+        input:focus, select:focus, textarea:focus {
+            outline: none;
+            border-color: var(--primary);
+            box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+        }
+
+        .btn {
+            width: 100%;
+            padding: 14px;
+            border: none;
+            border-radius: 10px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            transition: all 0.3s;
+            touch-action: manipulation;
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            color: white;
+        }
+
+        .btn-primary:active {
+            transform: scale(0.98);
+        }
+
+        .btn-success {
+            background: var(--success);
+            color: white;
+        }
+
+        .btn-danger {
+            background: var(--danger);
+            color: white;
+        }
+
+        .btn-info {
+            background: var(--info);
+            color: white;
+        }
+
+        .btn-small {
+            padding: 8px 12px;
+            font-size: 0.85em;
+            border-radius: 8px;
+            width: auto;
+        }
+
+        .topic-card {
+            background: var(--light);
+            border-radius: 12px;
+            padding: 15px;
+            margin-bottom: 12px;
+            border-left: 5px solid var(--primary);
+            animation: slideIn 0.3s ease-out;
+        }
+
+        .topic-card.urgent {
+            border-left-color: var(--danger);
+            background: #fef2f2;
+        }
+
+        .topic-card.today {
+            border-left-color: var(--warning);
+            background: #fffbeb;
+        }
+
+        .topic-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: start;
+            margin-bottom: 10px;
+            gap: 10px;
+        }
+
+        .topic-title {
+            font-weight: 700;
+            color: var(--dark);
+            font-size: 1.05em;
+            flex: 1;
+        }
+
+        .badge {
+            padding: 4px 10px;
+            border-radius: 20px;
+            font-size: 0.75em;
+            font-weight: 700;
+            color: white;
+            white-space: nowrap;
+        }
+
+        .badge-anatomi { background: #ef4444; }
+        .badge-fizyoloji { background: #f59e0b; }
+        .badge-biyokimya { background: #10b981; }
+        .badge-farmakoloji { background: #3b82f6; }
+        .badge-patoloji { background: #6366f1; }
+        .badge-mikrobiyoloji { background: #8b5cf6; }
+        .badge-cerrahi { background: #ec4899; }
+        .badge-restoratif { background: #14b8a6; }
+        .badge-ortodonti { background: #f97316; }
+        .badge-protez { background: #06b6d4; }
+        .badge-endodonti { background: #84cc16; }
+        .badge-pedodonti { background: #eab308; }
+        .badge-radyoloji { background: #64748b; }
+        .badge-periodontoloji { background: #dc2626; }
+
+        .dates-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 8px;
+            margin: 12px 0;
+        }
+
+        .date-item {
+            background: white;
+            padding: 8px;
+            border-radius: 8px;
+            font-size: 0.85em;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .date-item.completed {
+            opacity: 0.5;
+            text-decoration: line-through;
+        }
+
+        .date-item.next {
+            background: #dbeafe;
+            font-weight: 600;
+            border: 2px solid var(--info);
+        }
+
+        .progress-bar {
+            height: 6px;
+            background: #e5e7eb;
+            border-radius: 10px;
+            overflow: hidden;
+            margin: 10px 0;
+        }
+
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, var(--primary), var(--secondary));
+            transition: width 0.3s;
+        }
+
+        .actions {
+            display: flex;
+            gap: 8px;
+            flex-wrap: wrap;
+            margin-top: 10px;
+        }
+
+        .filter-chips {
+            display: flex;
+            gap: 8px;
+            overflow-x: auto;
+            padding-bottom: 10px;
+            margin-bottom: 15px;
+            -webkit-overflow-scrolling: touch;
+        }
+
+        .filter-chips::-webkit-scrollbar {
+            height: 4px;
+        }
+
+        .filter-chips::-webkit-scrollbar-thumb {
+            background: var(--border);
+            border-radius: 10px;
+        }
+
+        .chip {
+            padding: 8px 14px;
+            border-radius: 20px;
+            border: 2px solid var(--border);
+            background: white;
+            font-size: 0.85em;
+            font-weight: 600;
+            cursor: pointer;
+            white-space: nowrap;
+            transition: all 0.3s;
+        }
+
+        .chip.active {
+            background: var(--primary);
+            color: white;
+            border-color: var(--primary);
+        }
+
+        .empty-state {
+            text-align: center;
+            padding: 40px 20px;
+            color: #94a3b8;
+        }
+
+        .empty-state-icon {
+            font-size: 3em;
+            margin-bottom: 10px;
+        }
+
+        .toast {
+            position: fixed;
+            bottom: 90px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: var(--dark);
+            color: white;
+            padding: 12px 20px;
+            border-radius: 10px;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.3);
+            z-index: 10000;
+            animation: toastIn 0.3s ease-out;
+            max-width: 90%;
+        }
+
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0,0,0,0.6);
+            z-index: 9999;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+
+        .modal.show {
+            display: flex;
+        }
+
+        .modal-content {
+            background: white;
+            border-radius: 20px;
+            padding: 25px;
+            max-width: 500px;
+            width: 100%;
+            max-height: 90vh;
+            overflow-y: auto;
+            animation: modalIn 0.3s ease-out;
+        }
+
+        .modal-content h3 {
+            margin-bottom: 15px;
+            color: var(--dark);
+        }
+
+        .modal-content p {
+            color: #64748b;
+            margin-bottom: 20px;
+            line-height: 1.5;
+        }
+
+        .calendar-links {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            margin: 15px 0;
+        }
+
+        .calendar-event {
+            background: var(--light);
+            border: 2px solid var(--border);
+            border-radius: 10px;
+            padding: 12px;
+            text-align: left;
+        }
+
+        .calendar-event-title {
+            font-weight: 600;
+            color: var(--dark);
+            margin-bottom: 5px;
+            font-size: 0.95em;
+        }
+
+        .calendar-event-date {
+            color: #64748b;
+            font-size: 0.85em;
+            margin-bottom: 8px;
+        }
+
+        .modal-actions {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+        }
+
+        .bottom-nav {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: white;
+            box-shadow: 0 -4px 20px rgba(0,0,0,0.1);
+            padding: 10px;
+            display: flex;
+            justify-content: space-around;
+            z-index: 1000;
+        }
+
+        .nav-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 4px;
+            padding: 8px 16px;
+            border-radius: 12px;
+            cursor: pointer;
+            transition: all 0.3s;
+            color: #64748b;
+            font-size: 0.75em;
+            font-weight: 600;
+        }
+
+        .nav-item.active {
+            background: var(--light);
+            color: var(--primary);
+        }
+
+        .nav-item-icon {
+            font-size: 1.5em;
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 10px;
+            margin-bottom: 20px;
+        }
+
+        .stat-card {
+            background: white;
+            border-radius: 12px;
+            padding: 15px;
+            text-align: center;
+        }
+
+        .stat-number {
+            font-size: 1.8em;
+            font-weight: 700;
+            color: var(--primary);
+            margin-bottom: 5px;
+        }
+
+        .stat-label {
+            font-size: 0.8em;
+            color: #64748b;
+        }
+
+        .info-box {
+            background: #e0f2fe;
+            border: 2px solid #0ea5e9;
+            border-radius: 12px;
+            padding: 12px;
+            margin: 15px 0;
+            font-size: 0.9em;
+            color: #075985;
+        }
+
+        .info-box strong {
+            display: block;
+            margin-bottom: 8px;
+            color: #0c4a6e;
+        }
+
+        @keyframes slideIn {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes toastIn {
+            from {
+                opacity: 0;
+                transform: translateX(-50%) translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateX(-50%) translateY(0);
+            }
+        }
+
+        @keyframes modalIn {
+            from {
+                opacity: 0;
+                transform: scale(0.9);
+            }
+            to {
+                opacity: 1;
+                transform: scale(1);
+            }
+        }
+
+        .notes-text {
+            background: white;
+            padding: 10px;
+            border-radius: 8px;
+            margin: 10px 0;
+            font-size: 0.9em;
+            color: #475569;
+            border-left: 3px solid var(--info);
+        }
+
+        @media (max-width: 600px) {
+            .dates-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>🦷 DUS Diş Tekrar Sistemi</h1>
+            <p>1-3-7-30 Gün Aralıklı Tekrar Programı</p>
+        </div>
+
+        <!-- İstatistikler -->
+        <div class="stats-grid" id="statsGrid" style="display: none;">
+            <div class="stat-card">
+                <div class="stat-number" id="statTotal">0</div>
+                <div class="stat-label">Toplam Konu</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-number" id="statToday">0</div>
+                <div class="stat-label">Bugün</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-number" id="statCompleted">0</div>
+                <div class="stat-label">Tamamlanan</div>
+            </div>
+        </div>
+
+        <!-- Konu Ekleme -->
+        <div class="card" id="addSection">
+            <h2>➕ Yeni Konu Ekle</h2>
+            <form id="topicForm">
+                <div class="form-group">
+                    <label>📚 Ders Seç</label>
+                    <select id="category" required>
+                        <option value="">Ders Seçin...</option>
+                        <option value="anatomi">🦴 Anatomi</option>
+                        <option value="fizyoloji">⚡ Fizyoloji-Histoloji</option>
+                        <option value="biyokimya">🧪 Biyokimya</option>
+                        <option value="farmakoloji">💊 Farmakoloji</option>
+                        <option value="patoloji">🔬 Patoloji</option>
+                        <option value="mikrobiyoloji">🦠 Mikrobiyoloji</option>
+                        <option value="cerrahi">✂️ Cerrahi</option>
+                        <option value="restoratif">🦷 Restoratif</option>
+                        <option value="ortodonti">😁 Ortodonti</option>
+                        <option value="protez">🦷 Protez</option>
+                        <option value="endodonti">🦷 Endodonti</option>
+                        <option value="pedodonti">👶 Pedodonti</option>
+                        <option value="radyoloji">📸 Radyoloji</option>
+                        <option value="periodontoloji">🦷 Periodontoloji</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label>📖 Konu Başlığı</label>
+                    <input type="text" id="topicName" placeholder="Örn: Diş Anatomisi - Kesici Dişler" required>
+                </div>
+
+                <div class="form-group">
+                    <label>📝 Notlar (İsteğe Bağlı)</label>
+                    <textarea id="notes" rows="3" placeholder="Konu hakkında notlarınız..."></textarea>
+                </div>
+
+                <button type="submit" class="btn btn-primary">
+                    <span>✅</span> Konu Ekle ve Google Calendar'a Aktar
+                </button>
+            </form>
+        </div>
+
+        <!-- Bugün -->
+        <div class="card" id="todaySection" style="display: none;">
+            <h2>🔔 Bugün Tekrar Edilecekler</h2>
+            <div id="todayList"></div>
+        </div>
+
+        <!-- Yaklaşan -->
+        <div class="card" id="upcomingSection" style="display: none;">
+            <h2>📅 Yaklaşan Tekrarlar</h2>
+            <div class="filter-chips" id="filterChips"></div>
+            <div id="upcomingList"></div>
+        </div>
+
+        <!-- Tamamlanan -->
+        <div class="card" id="completedSection" style="display: none;">
+            <h2>✅ Tamamlanan Konular</h2>
+            <div id="completedList"></div>
+        </div>
+
+        <!-- Google Calendar Modal -->
+        <div id="calendarModal" class="modal">
+            <div class="modal-content">
+                <h3>📅 Google Calendar'a Ekle</h3>
+                <p><strong id="modalTopicName"></strong></p>
+                
+                <div class="info-box">
+                    <strong>📱 Nasıl Kullanılır?</strong>
+                    Her bir tekrar için ayrı etkinlik oluşturulacak. Linklere sırayla tıklayın ve Google Calendar'da "Kaydet" deyin.
+                </div>
+
+                <div class="calendar-links" id="calendarLinks"></div>
+
+                <div class="modal-actions">
+                    <button class="btn btn-small" id="closeCalendarModal" style="background: #94a3b8; color: white; flex: 1;">
+                        Kapat
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Alt Navigasyon -->
+    <div class="bottom-nav">
+        <div class="nav-item active" data-section="add">
+            <div class="nav-item-icon">➕</div>
+            <div>Ekle</div>
+        </div>
+        <div class="nav-item" data-section="today">
+            <div class="nav-item-icon">🔔</div>
+            <div>Bugün</div>
+        </div>
+        <div class="nav-item" data-section="upcoming">
+            <div class="nav-item-icon">📅</div>
+            <div>Yaklaşan</div>
+        </div>
+        <div class="nav-item" data-section="completed">
+            <div class="nav-item-icon">✅</div>
+            <div>Tamam</div>
+        </div>
+    </div>
+
+    <script>
+        const APP = {
+            topics: [],
+            filter: 'all',
+            currentTopic: null,
+            SCHEDULE: [1, 3, 7, 30]
+        };
+
+        const CATEGORIES = {
+            'anatomi': { name: '🦴 Anatomi', color: '#ef4444' },
+            'fizyoloji': { name: '⚡ Fizyoloji-Histoloji', color: '#f59e0b' },
+            'biyokimya': { name: '🧪 Biyokimya', color: '#10b981' },
+            'farmakoloji': { name: '💊 Farmakoloji', color: '#3b82f6' },
+            'patoloji': { name: '🔬 Patoloji', color: '#6366f1' },
+            'mikrobiyoloji': { name: '🦠 Mikrobiyoloji', color: '#8b5cf6' },
+            'cerrahi': { name: '✂️ Cerrahi', color: '#ec4899' },
+            'restoratif': { name: '🦷 Restoratif', color: '#14b8a6' },
+            'ortodonti': { name: '😁 Ortodonti', color: '#f97316' },
+            'protez': { name: '🦷 Protez', color: '#06b6d4' },
+            'endodonti': { name: '🦷 Endodonti', color: '#84cc16' },
+            'pedodonti': { name: '👶 Pedodonti', color: '#eab308' },
+            'radyoloji': { name: '📸 Radyoloji', color: '#64748b' },
+            'periodontoloji': { name: '🦷 Periodontoloji', color: '#dc2626' }
+        };
+
+        // Tarih fonksiyonları
+        function addDays(date, days) {
+            const result = new Date(date);
+            result.setDate(result.getDate() + days);
+            return result;
+        }
+
+        function formatDate(date) {
+            return new Date(date).toLocaleDateString('tr-TR', {
+                day: 'numeric',
+                month: 'long',
+                year: 'numeric'
+            });
+        }
+
+        function formatDateShort(date) {
+            return new Date(date).toLocaleDateString('tr-TR', {
+                day: 'numeric',
+                month: 'short'
+            });
+        }
+
+        function toISODate(date) {
+            const d = new Date(date);
+            return d.toISOString().split('T')[0].replace(/-/g, '');
+        }
+
+        function isToday(date) {
+            const today = new Date();
+            const check = new Date(date);
+            return today.toDateString() === check.toDateString();
+        }
+
+        function isPast(date) {
+            const today = new Date();
+            today.setHours(0, 0, 0, 0);
+            const check = new Date(date);
+            check.setHours(0, 0, 0, 0);
+            return check < today;
+        }
+
+        function getDaysUntil(date) {
+            const today = new Date();
+            today.setHours(0, 0, 0, 0);
+            const target = new Date(date);
+            target.setHours(0, 0, 0, 0);
+            return Math.ceil((target - today) / (1000 * 60 * 60 * 24));
+        }
+
+        // Veri yönetimi
+        function saveData() {
+            localStorage.setItem('dusDis', JSON.stringify(APP.topics));
+        }
+
+        function loadData() {
+            const saved = localStorage.getItem('dusDis');
+            if (saved) APP.topics = JSON.parse(saved);
+        }
+
+        // Konu oluştur
+        function createTopic(name, category, notes) {
+            const now = new Date();
+            return {
+                id: Date.now(),
+                name,
+                category,
+                notes,
+                createdAt: now.toISOString(),
+                repetitions: APP.SCHEDULE.map(days => ({
+                    day: days,
+                    date: addDays(now, days).toISOString(),
+                    completed: false
+                })),
+                completedAll: false
+            };
+        }
+
+        // Google Calendar URL oluştur - GELİŞTİRİLMİŞ VERSİYON
+        function createGoogleCalendarURL(topic, repetition) {
+            const date = new Date(repetition.date);
+            
+            // Tarih formatı: YYYYMMDD (gün boyu etkinlik)
+            const startDate = toISODate(date);
+            const endDate = toISODate(addDays(date, 1)); // Bir sonraki gün
+            
+            // Başlık: Ders Emoji + Ders Adı + Konu + (X. gün)
+            const categoryInfo = CATEGORIES[topic.category];
+            const title = `${categoryInfo.name} - ${topic.name} (${repetition.day}. gün tekrarı)`;
+            
+            // Açıklama - Detaylı bilgi
+            const description = `
+🦷 DUS Diş Hekimliği Tekrar Sistemi
+━━━━━━━━━━━━━━━━━━━━━━━━
+
+📚 Ders: ${categoryInfo.name}
+📖 Konu: ${topic.name}
+📅 Tekrar Sırası: ${repetition.day}. Gün (1-3-7-30 Sistemi)
+
+${topic.notes ? `📝 Notlar:\n${topic.notes}\n\n` : ''}
+━━━━━━━━━━━━━━━━━━━━━━━━
+
+✅ Bu konu ${formatDate(topic.createdAt)} tarihinde eklenmiştir.
+
+🔄 Tüm Tekrar Tarihleri:
+${topic.repetitions.map((r, i) => `• ${r.day}. gün: ${formatDate(r.date)}`).join('\n')}
+
+💡 Aralıklı tekrar yöntemi ile kalıcı öğrenme!
+            `.trim();
+
+            const params = new URLSearchParams({
+                action: 'TEMPLATE',
+                text: title,
+                dates: `${startDate}/${endDate}`,
+                details: description,
+                location: 'DUS Çalışma',
+                sf: 'true',
+                output: 'xml'
+            });
+
+            return `https://calendar.google.com/calendar/render?${params.toString()}`;
+        }
+
+        // Konu ekle
+        function addTopic(name, category, notes) {
+            const topic = createTopic(name, category, notes);
+            APP.topics.unshift(topic);
+            saveData();
+            render();
+            showToast('✅ Konu eklendi!');
+            
+            // Google Calendar modal göster
+            showGoogleCalendarModal(topic);
+        }
+
+        // Google Calendar Modal göster
+        function showGoogleCalendarModal(topic) {
+            APP.currentTopic = topic;
+            
+            document.getElementById('modalTopicName').textContent = 
+                `${CATEGORIES[topic.category].name} - ${topic.name}`;
+            
+            const linksContainer = document.getElementById('calendarLinks');
+            linksContainer.innerHTML = '';
+
+            topic.repetitions.forEach((rep, index) => {
+                if (!rep.completed) {
+                    const eventDiv = document.createElement('div');
+                    eventDiv.className = 'calendar-event';
+                    
+                    const url = createGoogleCalendarURL(topic, rep);
+                    
+                    eventDiv.innerHTML = `
+                        <div class="calendar-event-title">
+                            ${rep.day}. Gün Tekrarı
+                        </div>
+                        <div class="calendar-event-date">
+                            📅 ${formatDate(rep.date)}
+                        </div>
+                        <button class="btn btn-small btn-info" onclick="window.open('${url}', '_blank')" style="width: 100%; margin-top: 8px;">
+                            📅 Google Calendar'a Ekle
+                        </button>
+                    `;
+                    
+                    linksContainer.appendChild(eventDiv);
+                }
+            });
+
+            document.getElementById('calendarModal').classList.add('show');
+        }
+
+        document.getElementById('closeCalendarModal').addEventListener('click', () => {
+            document.getElementById('calendarModal').classList.remove('show');
+        });
+
+        // Modal dışına tıklanınca kapat
+        document.getElementById('calendarModal').addEventListener('click', (e) => {
+            if (e.target.id === 'calendarModal') {
+                document.getElementById('calendarModal').classList.remove('show');
+            }
+        });
+
+        // Tekrarı tamamla
+        function completeRepetition(topicId, repIndex) {
+            const topic = APP.topics.find(t => t.id === topicId);
+            if (topic) {
+                topic.repetitions[repIndex].completed = true;
+                if (topic.repetitions.every(r => r.completed)) {
+                    topic.completedAll = true;
+                }
+                saveData();
+                render();
+                showToast('🎉 Tekrar tamamlandı!');
+            }
+        }
+
+        // Konu sil
+        function deleteTopic(topicId) {
+            if (confirm('Bu konuyu silmek istediğinizden emin misiniz?')) {
+                APP.topics = APP.topics.filter(t => t.id !== topicId);
+                saveData();
+                render();
+                showToast('🗑️ Konu silindi');
+            }
+        }
+
+        // Konu kartı oluştur
+        function createTopicCard(topic) {
+            const card = document.createElement('div');
+            card.className = 'topic-card';
+            
+            const nextRep = topic.repetitions.find(r => !r.completed);
+            
+            if (nextRep) {
+                if (isToday(nextRep.date)) card.classList.add('today');
+                else if (isPast(nextRep.date)) card.classList.add('urgent');
+            }
+            
+            const completed = topic.repetitions.filter(r => r.completed).length;
+            const progress = (completed / topic.repetitions.length) * 100;
+            
+            card.innerHTML = `
+                <div class="topic-header">
+                    <div class="topic-title">${topic.name}</div>
+                    <span class="badge badge-${topic.category}">${CATEGORIES[topic.category].name.split(' ')[1]}</span>
+                </div>
+                
+                ${topic.notes ? `<div class="notes-text">📝 ${topic.notes}</div>` : ''}
+                
+                <div class="progress-bar">
+                    <div class="progress-fill" style="width: ${progress}%"></div>
+                </div>
+                
+                <div class="dates-grid">
+                    ${topic.repetitions.map((rep, idx) => `
+                        <div class="date-item ${rep.completed ? 'completed' : ''} ${nextRep && nextRep.day === rep.day ? 'next' : ''}">
+                            ${rep.completed ? '✅' : nextRep && nextRep.day === rep.day ? '🔔' : '⏳'}
+                            <span>
+                                ${rep.day}. gün - ${formatDateShort(rep.date)}
+                                ${!rep.completed && isToday(rep.date) ? ' 🔥' : ''}
+                                ${!rep.completed && isPast(rep.date) ? ' ⚠️' : ''}
+                                ${!rep.completed && !isToday(rep.date) && !isPast(rep.date) ? ` (${getDaysUntil(rep.date)}g)` : ''}
+                            </span>
+                        </div>
+                    `).join('')}
+                </div>
+                
+                <div class="actions">
+                    ${nextRep ? `
+                        <button class="btn btn-small btn-success" onclick="completeRepetition(${topic.id}, ${topic.repetitions.indexOf(nextRep)})">
+                            ✓ Tamamla
+                        </button>
+                    ` : ''}
+                    <button class="btn btn-small btn-info" onclick="showGoogleCalendarModal(APP.topics.find(t => t.id === ${topic.id}))">
+                        📅 Takvime Ekle
+                    </button>
+                    <button class="btn btn-small btn-danger" onclick="deleteTopic(${topic.id})">
+                        🗑️ Sil
+                    </button>
+                </div>
+            `;
+            
+            return card;
+        }
+
+        // Boş durum
+        function showEmpty(container, msg, icon) {
+            container.innerHTML = `
+                <div class="empty-state">
+                    <div class="empty-state-icon">${icon}</div>
+                    <p>${msg}</p>
+                </div>
+            `;
+        }
+
+        // Render
+        function render() {
+            // İstatistikler
+            const total = APP.topics.length;
+            const today = APP.topics.filter(t => 
+                t.repetitions.some(r => !r.completed && (isToday(r.date) || isPast(r.date)))
+            ).length;
+            const completed = APP.topics.filter(t => t.completedAll).length;
+            
+            if (total > 0) {
+                document.getElementById('statsGrid').style.display = 'grid';
+                document.getElementById('statTotal').textContent = total;
+                document.getElementById('statToday').textContent = today;
+                document.getElementById('statCompleted').textContent = completed;
+            }
+            
+            // Bugün
+            const todayList = document.getElementById('todayList');
+            const todayTopics = APP.topics.filter(t =>
+                t.repetitions.some(r => !r.completed && (isToday(r.date) || isPast(r.date)))
+            );
+            
+            if (todayTopics.length === 0) {
+                showEmpty(todayList, 'Bugün tekrar edilecek konu yok! 🎉', '✨');
+            } else {
+                todayList.innerHTML = '';
+                todayTopics.forEach(t => todayList.appendChild(createTopicCard(t)));
+            }
+            
+            // Filtreler
+            const filterChips = document.getElementById('filterChips');
+            filterChips.innerHTML = `
+                <div class="chip ${APP.filter === 'all' ? 'active' : ''}" onclick="setFilter('all')">Tümü</div>
+                ${Object.keys(CATEGORIES).map(cat => `
+                    <div class="chip ${APP.filter === cat ? 'active' : ''}" onclick="setFilter('${cat}')">
+                        ${CATEGORIES[cat].name}
+                    </div>
+                `).join('')}
+            `;
+            
+            // Yaklaşan
+            const upcomingList = document.getElementById('upcomingList');
+            let upcoming = APP.topics.filter(t =>
+                !t.completedAll && t.repetitions.some(r => !r.completed && !isToday(r.date) && !isPast(r.date))
+            );
+            
+            if (APP.filter !== 'all') {
+                upcoming = upcoming.filter(t => t.category === APP.filter);
+            }
+            
+            if (upcoming.length === 0) {
+                showEmpty(upcomingList, 'Yaklaşan tekrar yok', '📅');
+            } else {
+                upcomingList.innerHTML = '';
+                upcoming.forEach(t => upcomingList.appendChild(createTopicCard(t)));
+            }
+            
+            // Tamamlanan
+            const completedList = document.getElementById('completedList');
+            const completedTopics = APP.topics.filter(t => t.completedAll);
+            
+            if (completedTopics.length === 0) {
+                showEmpty(completedList, 'Henüz tamamlanan konu yok', '🎯');
+            } else {
+                completedList.innerHTML = '';
+                completedTopics.forEach(t => completedList.appendChild(createTopicCard(t)));
+            }
+        }
+
+        // Filtre
+        function setFilter(filter) {
+            APP.filter = filter;
+            render();
+        }
+
+        // Toast
+        function showToast(msg) {
+            const toast = document.createElement('div');
+            toast.className = 'toast';
+            toast.textContent = msg;
+            document.body.appendChild(toast);
+            setTimeout(() => toast.remove(), 3000);
+        }
+
+        // Form
+        document.getElementById('topicForm').addEventListener('submit', (e) => {
+            e.preventDefault();
+            const name = document.getElementById('topicName').value;
+            const category = document.getElementById('category').value;
+            const notes = document.getElementById('notes').value;
+            
+            addTopic(name, category, notes);
+            e.target.reset();
+        });
+
+        // Navigasyon
+        document.querySelectorAll('.nav-item').forEach(item => {
+            item.addEventListener('click', () => {
+                document.querySelectorAll('.nav-item').forEach(i => i.classList.remove('active'));
+                item.classList.add('active');
+                
+                const section = item.dataset.section;
+                document.querySelectorAll('.card').forEach(c => c.style.display = 'none');
+                document.getElementById(`${section}Section`).style.display = 'block';
+            });
+        });
+
+        // Başlangıç
+        loadData();
+        render();
+        setInterval(render, 60000);
+        
+        // PWA - Ana ekrana ekleme
+        let deferredPrompt;
+        window.addEventListener('beforeinstallprompt', (e) => {
+            e.preventDefault();
+            deferredPrompt = e;
+        });
+    </script>
+</body>
+</html>
